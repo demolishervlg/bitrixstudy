@@ -1,0 +1,16 @@
+<?
+        if(CModule::IncludeModule("iblock"))
+        {
+            $iblocks = GetIBlockList("structure");
+            while($arIBlock = $iblocks->GetNext()) //цикл по всем блокам
+            {
+                $idPic = CIBlock::GetArrayByID($arIBlock["ID"], "PICTURE"); //Картинка
+                $picUrl = CFile::GetPath($idPic);
+                $desc = CIBlock::GetArrayByID($arIBlock["ID"], "DESCRIPTION");//Описание
+                echo "<pre>";
+                var_dump($arIBlock["NAME"]); //Имя
+                echo "</pre>";
+            }
+        }
+
+        ?>
