@@ -1,0 +1,23 @@
+<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+
+$arDoctors = [];
+$arSelect = Array("ID","IBLOCK_ID", "NAME", "PREVIEW_PICTURE","PROPERTY_*");
+$arFilter = Array("IBLOCK_ID"=>IntVal(20), "ACTIVE"=>"Y");
+$res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
+while($ob = $res->GetNextElement())
+{
+
+    $arFields = $ob->GetFields();
+    $pr = $ob->GetProperties();
+    $renderImage = CFile::ResizeImageGet($arFields["PREVIEW_PICTURE"], Array("width" => "600", "height" => "600"));
+    $arDoctors[$arFields["ID"]] = [
+        "ID" => $arFields["ID"],
+        "NAME" => $arFields["NAME"],
+        "PREVIEW_PICTURE" =>  $renderImage["src"],
+        "POSITION" => $pr["POSITION"]["VALUE"]
+
+    ];
+
+}
+
+$arResult["DOCTORS_ARRAY"] = $arDoctors;
