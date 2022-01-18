@@ -1,0 +1,5 @@
+<? $GLOBALS['filter1'] = ['SECION_ID' => '2']?>
+
+
+в самом компоненте (в масиве параметров)
+ "FILTER_NAME"=>'filter1'
