@@ -1,0 +1,10 @@
+<?php
+$arDocs = [];
+foreach ($arResult["PROPERTIES"]["FILE"]["VALUE"] as $key => $id) {
+    $arImagesPath = CFile::GetPath($id);
+    $arDocs[$key] = [
+        "SRC" => $renderImage['src'],
+    ];
+}
+$arResult["DOSTIJ"] = $arDocs;
+?>
