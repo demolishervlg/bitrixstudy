@@ -1,4 +1,4 @@
-<? $GLOBALS['filter1'] = ['SECION_ID' => '2']?>
+<? $GLOBALS['filter1'] = ['SECTION_ID' => '2']?>
 
 
 в самом компоненте (в масиве параметров)
