@@ -1,0 +1,26 @@
+<?php
+
+$exportXml = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/export001.xml'); // путь к XML файлу 
+try{
+$xmlObj = new SimpleXMLElement($exportXml);
+parseXml($xmlObj);
+return false;
+}
+catch (Exception $e) {
+var_dump($e->getMessage());
+var_dump($exportXml);
+}
+
+function parseXml(SimpleXMLElement $xmlObj){
+echo "<pre>";
+    foreach ($xmlObj->{'Услуга'} as $usluga){ // в документе есть массив с услугамими
+        var_dump(strval($usluga->{'Наименование'}));
+        echo "<br/>";
+        echo "<br/>";
+        foreach ($usluga as $value){
+            var_dump(trim($value->getName()) . ' == > ' . trim($value));
+        }
+        echo "<br/>";echo "<br/>";
+    }
+    echo "</pre>";
+}
