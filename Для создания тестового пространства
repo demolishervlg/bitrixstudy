@@ -1,3 +1,7 @@
 <? if(isset($_GET['test-doctors'])){ ?>
 
 <?}?>
+
+if(isset($_COOKIE['test123'])){
+
+}
