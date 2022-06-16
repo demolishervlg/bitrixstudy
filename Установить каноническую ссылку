@@ -1,0 +1,9 @@
+Для пагинации и остальных страниц:
+а в header.php
+$APPLICATION->SetPageProperty('canonical', getSiteUrl() . $APPLICATION->GetCurPage(false));
+
+В init.php или functions.php
+function getSiteUrl() {
+    $protocol = $_SERVER['HTTPS'] != '' ? 'https://' : 'http://';
+    return $protocol . $_SERVER['SERVER_NAME'];
+}
