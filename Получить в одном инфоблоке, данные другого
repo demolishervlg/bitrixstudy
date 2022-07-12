@@ -1,15 +1,15 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+//Всё это в result_modifier.php
 
+//Например всех докторов хочу получить
 $arDoctors = [];
 $arSelect = Array("ID","IBLOCK_ID", "NAME", "PREVIEW_PICTURE","PROPERTY_*");
 $arFilter = Array("IBLOCK_ID"=>IntVal(20), "ACTIVE"=>"Y");
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array(), $arSelect);
 while($ob = $res->GetNextElement())
 {
-
     $arFields = $ob->GetFields();
     $pr = $ob->GetProperties();
-    $renderImage = CFile::ResizeImageGet($arFields["PREVIEW_PICTURE"], Array("width" => "600", "height" => "600"));
+    $renderImage = CFile::ResizeImageGet($arFields["PREVIEW_PICTURE"], Array("width" => "600", "height" => "600")); //ето картинка, можно ресайз сразу делать
     $arDoctors[$arFields["ID"]] = [
         "ID" => $arFields["ID"],
         "NAME" => $arFields["NAME"],
@@ -17,7 +17,6 @@ while($ob = $res->GetNextElement())
         "POSITION" => $pr["POSITION"]["VALUE"]
 
     ];
-
 }
 
 $arResult["DOCTORS_ARRAY"] = $arDoctors;
