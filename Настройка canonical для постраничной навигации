@@ -1,0 +1,10 @@
+в head.php
+if(!empty($_GET['PAGEN_1'])){
+        $APPLICATION->SetPageProperty('canonical', getSiteUrl() . $APPLICATION->GetCurPage(false));
+     }
+
+в init.php
+function getSiteUrl() {
+    $protocol = $_SERVER['HTTPS'] != '' ? 'https://' : 'http://';
+    return $protocol . $_SERVER['SERVER_NAME'];
+}
