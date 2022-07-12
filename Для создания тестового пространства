@@ -1,7 +1,9 @@
-<? if(isset($_GET['test-doctors'])){ ?>
+Это get параметр
+if(isset($_GET['test-doctors'])){
 
-<?}?>
+}
 
+Это для кук
 if(isset($_COOKIE['test123'])){
 
 }
