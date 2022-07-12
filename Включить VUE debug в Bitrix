@@ -1,0 +1,3 @@
+//в init.php
+
+define('VUEJS_DEBUG', true);
