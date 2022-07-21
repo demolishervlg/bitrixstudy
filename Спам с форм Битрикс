@@ -1,0 +1,14 @@
+Это проверка отправленна форма ajax-ом или нет 
+
+// Событие в init.php
+AddEventHandler('form', 'onBeforeResultAdd', 'my_onBeforeResultAdd');
+function my_onBeforeResultAdd($WEB_FORM_ID, &$arFields, &$arrVALUES)
+{
+    global $APPLICATION;
+    $spam = false;
+    $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+    if(!$request->isAjaxRequest()){
+        $APPLICATION->ThrowException('Ошибка!');
+        return false;
+    }
+}
