@@ -1,0 +1,5 @@
+// в result_modifier.php
+<?php
+
+//здесь передаём ключ из $arResult
+$this->__component->SetResultCacheKeys(['DETAIL_PICTURE']); 
