@@ -8,3 +8,38 @@ function getSiteUrl() {
     $protocol = $_SERVER['HTTPS'] != '' ? 'https://' : 'http://';
     return $protocol . $_SERVER['SERVER_NAME'];
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Решение вопроса:
+
+
+
+Для catalog.section
+в result_modifier.php
+$arSection = CIblockSection::GetById($arResult["ID"])->GetNext();
+$arResult['SECTION_PAGE_URL'] = $arSection['SECTION_PAGE_URL'];
+$cp = $this->__component; 
+if (is_object($cp))
+$cp->SetResultCacheKeys(array('SECTION_PAGE_URL'));
+
+
+в component_epilog.php
+$APPLICATION->AddHeadString('<link href="http://'.SITE_SERVER_NAME.$arResult['SECTION_PAGE_URL'].'" rel="canonical" />',true);
+
+
+
+
+
+Для catalog.element
+в result_modifier.php
+$arElement = CIblockElement::GetById($arResult["ID"])->GetNext();
+$arResult['DETAIL_PAGE_URL'] = $arElement['DETAIL_PAGE_URL'];
+$cp = $this->__component; 
+if (is_object($cp))
+$cp->SetResultCacheKeys(array('DETAIL_PAGE_URL'));
+
+
+в component_epilog.php
+$APPLICATION->AddHeadString('<link href="http://'.SITE_SERVER_NAME.$arResult['DETAIL_PAGE_URL'].'" rel="canonical" />',true);
