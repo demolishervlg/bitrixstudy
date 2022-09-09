@@ -1,3 +1,6 @@
+https://pai-bx.com/wiki/seo/2334-shop-ld-json-microdata/
+
+
 Для начала, в result_modifier.php прописываем данные для микроразметки:
 
 $arDateLastUpdate = ParseDateTime($arResult['TIMESTAMP_X']);
