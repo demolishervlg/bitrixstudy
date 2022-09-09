@@ -1,0 +1,66 @@
+Для начала, в result_modifier.php прописываем данные для микроразметки:
+
+$arDateLastUpdate = ParseDateTime($arResult['TIMESTAMP_X']);
+$imgPath = '';
+if (is_array($arResult['DETAIL_PICTURE']))
+{
+	$imgPath = $arResult['DETAIL_PICTURE']['SRC'];
+} elseif (is_array($arResult['MORE_PHOTO']) && is_array($arResult['MORE_PHOTO'][0]))
+{
+	$imgPath = $arResult['MORE_PHOTO'][0]['SRC'];
+} elseif (is_array($arResult['PREVIEW_PICTURE']))
+{
+	$imgPath = $arResult['PREVIEW_PICTURE']['SRC'];
+}
+$arSiteInfo = \Pai\Tools\CTools::getSiteInfo();
+$arProtocol = CMain::IsHTTPS() ? "https://" : "http://";
+$serverName = $arSiteInfo['SERVER_NAME'];
+
+if (strpos($imgPath, ':') === false)
+{
+	$imgPath = $arProtocol . $serverName . $imgPath;
+}
+
+$microJs = array(
+	"@type" => "Product",
+	"@context" => "http://schema.org/",
+	"name" => isset($arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE'])
+		? $arResult['IPROPERTY_VALUES']['ELEMENT_PAGE_TITLE']
+		: $arResult['NAME'],
+	"image" => $imgPath,
+	"description" => (strlen($arResult['~DETAIL_TEXT']) > 0) ? $arResult['~DETAIL_TEXT'] : $arResult['~PREVIEW_TEXT'],
+	"mpn" => $arResult['PROPERTIES']['CML2_ARTICLE']['VALUE'],
+	"brand" => array(
+		"@type" => "Thing",
+		"name" => "ТМ YourSite"
+	),
+	"aggregateRating" => array(
+		"@type" => "AggregateRating",
+		"ratingValue" => floatval($arResult['PROPERTIES']['rating']['VALUE']) > 0
+			? floatval($arResult['PROPERTIES']['rating']['VALUE'])
+			: 5,
+		"reviewCount" => intval($arResult['PROPERTIES']['vote_count']['VALUE']) > 0
+			? intval($arResult['PROPERTIES']['vote_count']['VALUE'])
+			: 1,
+	),
+	"offers" => array(
+		"@type" => "Offer",
+		"priceCurrency" => "ГРН",
+		"price" => $arResult['MIN_BASIS_PRICE']['DISCOUNT_VALUE'],
+	)
+);
+
+if (strlen($microJs['image']) <= 0) unset($microJs['image']);
+if (strlen($microJs['description']) <= 0) unset($microJs['description']);
+if (strlen($microJs['mpn']) <= 0) unset($microJs['mpn']);
+$arResult['JSON'] = $microJs;
+$this->__component->arResultCacheKeys = array_merge($this->__component->arResultCacheKeys,
+	array('JSON'));
+  
+  
+  
+И в component_epilog.php прописываем вывод микроданных:
+
+if(!empty($arResult['JSON'])){
+	$asset->addString('<script type="application/ld+json">'.json_encode($arResult['JSON']).'</script>');
+}
