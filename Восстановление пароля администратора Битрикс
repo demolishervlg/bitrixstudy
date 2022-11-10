@@ -1,0 +1,7 @@
+Файл pass.php в корневую директорию сайта
+<?
+require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
+global $USER;
+$USER->Authorize(1);
+LocalRedirect(“/bitrix/admin/”);
+?>
