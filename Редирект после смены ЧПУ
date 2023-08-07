@@ -1,0 +1,15 @@
+$url = "https://vlcm.ru".$_SERVER["DOCUMENT_URI"];
+$path= parse_url($url, PHP_URL_PATH);
+
+$result = array_pop(explode("/", trim($path, "/")));
+
+$res = CIBlockElement::GetByID($result);
+if($ar_res = $res->GetNext()){
+    $link = $ar_res['DETAIL_PAGE_URL'];
+    $linkid = $ar_res["ID"];
+}
+
+if($result === $linkid){
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: ". $link);
+}
